@@ -28,4 +28,7 @@ class Controller:
         self._view.update()
 
     # Altre Funzioni Event Handler
+    def btn_handler_mostra(self, e):
+
+        pass
     # TODO

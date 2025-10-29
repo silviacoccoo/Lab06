@@ -26,6 +26,7 @@ class View:
         self.txt_responsabile = None
 
         # Non obbligatorio mettere già qui tutti gli elementi UI
+        self.lista_auto=ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
 
     def show_alert(self, messaggio):
         self.alert.show_alert(messaggio)
@@ -63,6 +64,7 @@ class View:
         pulsante_conferma_responsabile = ft.ElevatedButton("Conferma", on_click=self.controller.conferma_responsabile)
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
+        btn_mostra = ft.ElevatedButton(text='Mostra', on_click=self.controller.btn_handler_mostra)
         # TODO
 
         # --- LAYOUT ---
@@ -82,9 +84,12 @@ class View:
             ft.Divider(),
 
             # Sezione 3
+            ft.Row(controls=[ft.Text(value='Automobili', size=20, text_align=ft.TextAlign.LEFT), btn_mostra]),
+            lista_auto
             # TODO
 
             # Sezione 4
+
             # TODO
         )
 
