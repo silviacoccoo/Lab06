@@ -29,6 +29,33 @@ class Controller:
 
     # Altre Funzioni Event Handler
     def btn_handler_mostra(self, e):
+        lista_auto= self._model.get_automobili()
+        self._view.lista_auto.controls.clear()
+        if lista_auto:
+            for auto in lista_auto:
+                self._view.lista_auto.controls.append(ft.Text(str(auto)))
+            self._view.show_alert(f'Trovate {len(lista_auto)} automobili')
+        else:
+            self._view.lista_auto.controls.append(ft.Text('Nessuna automobile trovata'))
+            self._view.show_alert(f'Errore nel recupero delle automobili')
 
-        pass
+        self._view.update()
+
+    def btn_handler_cerca(self, e):
+        modello_cercato = self._view.input_modello_auto.value
+        self._view.lista_auto.controls.clear()
+
+        if not modello_cercato:
+            self._view.show_alert('Inserisci modello')
+            self._view.update()
+            return
+        lista_auto_ricerca= self._model.cerca_automobili_per_modello(modello_cercato)
+
+        if lista_auto_cercata:
+            for auto in lista_auto_cercata:
+                self._view.lista_auto_ricerca.controls.append(ft.Text(str(auto)))
+            self._view.show_alert(f'Trovate {len(lista_auto_cercata)} automobili')
+        else:
+            self._view.lista_auto_ricerca.controls.append(ft.Text('Nessuna automobile trovata'))
+            self._view.show_alert(f'Nessuna automobile trovata')
     # TODO

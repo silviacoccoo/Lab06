@@ -65,6 +65,7 @@ class View:
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
         btn_mostra = ft.ElevatedButton(text='Mostra', on_click=self.controller.btn_handler_mostra)
+        btn_cerca=ft.ElevatedButton(text='Cerca', on_click=self.controller.btn_handler_cerca)
         # TODO
 
         # --- LAYOUT ---
@@ -85,11 +86,14 @@ class View:
 
             # Sezione 3
             ft.Row(controls=[ft.Text(value='Automobili', size=20, text_align=ft.TextAlign.LEFT), btn_mostra]),
-            lista_auto
+            self.lista_auto,
             # TODO
 
             # Sezione 4
-
+            ft.Divider(),
+            ft.Text('Cerca automobile', size=20),
+            ft.Row(controls=[self.input_modello_auto, btn_cerca],alignment=ft.MainAxisAlignment.CENTER),
+            self.lista_auto_ricerca
             # TODO
         )
 

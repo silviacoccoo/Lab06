@@ -36,7 +36,7 @@ class Autonoleggio:
             :return: una lista con tutte le automobili presenti oppure None
         """
         try:
-            conn=get_connection()
+            conn=get_connection() # si crea la connessione con il database
             if conn is None:
                 print('Errore: connessione al database non riuscita')
                 return None
@@ -44,7 +44,9 @@ class Autonoleggio:
             cursor=conn.cursor(dictionary=True)
             query="SELECT * FROM automobile"
             cursor.execute(query)
+
             result=[]
+
             for row in cursor:
                 disponibile=True if row['disponibile']==1 else False
                 auto=Automobile(
