@@ -33,22 +33,25 @@ class Autonoleggio:
     def get_automobili(self) -> list[Automobile] | None:
         """
             Funzione che legge tutte le automobili nel database
-            :return: una lista con tutte le automobili presenti oppure None
+            return: una lista con tutte le automobili presenti oppure None
         """
         try:
-            conn=get_connection() # si crea la connessione con il database
+            conn=get_connection() # Si crea la connessione con il database
+
+            # Se non si stabilisce la connessione la funzione deve restituire None
             if conn is None:
                 print('Errore: connessione al database non riuscita')
                 return None
-            #else
+
+            # Altrimenti, se si crea la connessione
             cursor=conn.cursor(dictionary=True)
-            query="SELECT * FROM automobile"
-            cursor.execute(query)
+            query="SELECT * FROM automobile" # Seleziono dal database di nome automobile
+            cursor.execute(query) # Eseguo la query
 
-            result=[]
-
+            result=[] # Inizializzo una lista vuota che accoglierà gli oggetti auto
             for row in cursor:
                 disponibile=True if row['disponibile']==1 else False
+                # Per ogni riga del cursor creiamo un oggetto auto
                 auto=Automobile(
                     codice=row['codice'],
                     marca=row['marca'],
@@ -57,10 +60,13 @@ class Autonoleggio:
                     posti=row['posti'],
                     disponibile=disponibile
                 )
-                result.append(auto)
+                result.append(auto) # Ogni oggetto auto lo aggiungiamo alla lista result
+
             cursor.close()
             conn.close()
+
             return result
+
         except Exception as e:
             print(f'Errore: {e}')
             return None
@@ -69,25 +75,28 @@ class Autonoleggio:
     def cerca_automobili_per_modello(self, modello) -> list[Automobile] | None:
         """
             Funzione che recupera una lista con tutte le automobili presenti nel database di una certa marca e modello
-            :param modello: il modello dell'automobile
-            :return: una lista con tutte le automobili di marca e modello indicato oppure None
+            param modello: il modello dell'automobile
+            return: una lista con tutte le automobili di marca e modello indicato oppure None
         """
         if not modello:
-            return None
+            return []
 
+        conn=None
+        cursor=None
         try:
             conn=get_connection()
-            if conn in None:
+
+            if conn is None:
                 print('Errore: connessione al database non riuscita')
                 return None
-            #else
+
+            # Altrimenti
             cursor=conn.cursor(dictionary=True)
-            query="SELECT * FROM automobile WHERE LOWER(modello) LIKE %s"
-            modello_cerca="%" + modello.lower() + "%"
-            cursor.execute(query,modello_cerca)
+            query="SELECT * FROM automobile WHERE LOWER(modello) = %s"
+            modello_cerca=modello.strip().lower()
+            cursor.execute(query,(modello_cerca,))
 
             result=[]
-
             for row in cursor:
                 disponibile=True if row['disponibile']==1 else False
                 auto=Automobile(
@@ -99,9 +108,12 @@ class Autonoleggio:
                     disponibile=disponibile
                 )
                 result.append(auto)
+
             cursor.close()
             conn.close()
+
             return result
+
         except Exception as e:
             print(f'Errore: {e}')
             return None

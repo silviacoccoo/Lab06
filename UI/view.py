@@ -26,7 +26,9 @@ class View:
         self.txt_responsabile = None
 
         # Non obbligatorio mettere già qui tutti gli elementi UI
-        self.lista_auto=ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
+        #self.lista_auto=ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
+        #self.input_modello=ft.TextField(label='Modello')
+        #self.lista_auto_ricerca=ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
 
     def show_alert(self, messaggio):
         self.alert.show_alert(messaggio)
@@ -91,8 +93,7 @@ class View:
 
             # Sezione 4
             ft.Divider(),
-            ft.Text('Cerca automobile', size=20),
-            ft.Row(controls=[self.input_modello_auto, btn_cerca],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row(controls=[ft.Text(value='Cerca automobile', size=20, text_align=ft.TextAlign.LEFT), self.input_modello_auto, btn_cerca]),
             self.lista_auto_ricerca
             # TODO
         )
