@@ -80,38 +80,34 @@ class Autonoleggio:
 
         conn=None
         cursor=None
-        try:
-            conn=get_connection()
 
-            if conn is None:
-                print('Errore: connessione al database non riuscita')
-                return None
+        conn=get_connection()
 
-            # Altrimenti
-            cursor=conn.cursor(dictionary=True)
-            query="SELECT * FROM automobile WHERE LOWER(modello) = %s"
-            modello_cerca=modello.strip().lower()
-            cursor.execute(query,(modello_cerca,))
-
-            result=[]
-            for row in cursor:
-                disponibile=True if row['disponibile']==1 else False
-                auto=Automobile(
-                    codice=row['codice'],
-                    marca=row['marca'],
-                    modello=row['modello'],
-                    anno=row['anno'],
-                    posti=row['posti'],
-                    disponibile=disponibile
-                )
-                result.append(auto)
-
-            cursor.close()
-            conn.close()
-
-            return result
-
-        except Exception as e:
-            print(f'Errore: {e}')
+        if conn is None:
+            print('Errore: connessione al database non riuscita')
             return None
+
+        # Altrimenti
+        cursor=conn.cursor(dictionary=True)
+        query="SELECT * FROM automobile WHERE LOWER(modello) = %s"
+        modello_cerca=modello.strip().lower()
+        cursor.execute(query,(modello_cerca,))
+
+        result=[]
+        for row in cursor:
+            disponibile=True if row['disponibile']==1 else False
+            auto=Automobile(
+                codice=row['codice'],
+                marca=row['marca'],
+                modello=row['modello'],
+                anno=row['anno'],
+                posti=row['posti'],
+                disponibile=disponibile
+            )
+            result.append(auto)
+
+        cursor.close()
+        conn.close()
+
+        return result
         # TODO
