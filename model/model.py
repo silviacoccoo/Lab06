@@ -66,7 +66,6 @@ class Autonoleggio:
         conn.close()
 
         return result
-
         # TODO
 
     def cerca_automobili_per_modello(self, modello) -> list[Automobile] | None:
